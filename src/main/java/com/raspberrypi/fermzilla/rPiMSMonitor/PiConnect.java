@@ -2,18 +2,12 @@ package com.raspberrypi.fermzilla.rPiMSMonitor;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PiConnect {
-
-    public Double PiResponseToDouble(JSONObject jsonObject){
-       return jsonObject.optDouble("innerTemperature");
+    public Double getTempFromPi() throws UnirestException {
+        var response =  Unirest.get("http://192.168.0.102:8080/v1/temperature").asJson().getBody().getObject();
+        return response.optDouble("innerTemperature");
     }
-
-    public JSONObject getTempFromPi() throws UnirestException {
-        return Unirest.get("http://192.168.0.102:8080/v1/temperature").asJson().getBody().getObject();
-    }
-
 }
