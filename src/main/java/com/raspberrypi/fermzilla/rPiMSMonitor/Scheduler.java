@@ -2,14 +2,16 @@ package com.raspberrypi.fermzilla.rPiMSMonitor;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.Batch;
+import com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.BatchDetails;
+import com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.BatchRepo;
 import com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.sql.Timestamp;
+import java.util.*;
 
 @Component
 @EnableScheduling
@@ -18,7 +20,8 @@ public class Scheduler {
     private MongoService mongoService;
 
     public Batch batch = new Batch();
-    public Set<Double>tempList = new HashSet<>();
+    public List<BatchDetails> tempList = new ArrayList<>();
+    public BatchDetails batchDetails = new BatchDetails();
 
     @Autowired
     public Scheduler(PiConnect piConnect, MongoService mongoService) {
@@ -28,18 +31,18 @@ public class Scheduler {
 
     @Scheduled(fixedDelay = 5000)
     public void periodicGetTemp() throws UnirestException {
-        String id = "61388de20619830ec91f5120";
-        var getTempeFromInnerSensor = piConnect.getTempFromPi();
-        var sensorReadingsToDouble = piConnect.PiResponseToDouble(getTempeFromInnerSensor);
-
-        tempList.add(sensorReadingsToDouble);
-        batch.setBatchId(id);
+        batchDetails.setTime(new Date());
+        //var getTempeFromInnerSensor = piConnect.getTempFromPi();
+        Double getTempeFromInnerSensor = 27.0;
+        tempList.add(batchDetails);
+        batch.setBatchName("MongoEntityTest");
+        batchDetails.setTemperature(getTempeFromInnerSensor);
         batch.setTemperatures(tempList);
 
-        mongoService.saveReadings(batch);
-
+        //mongoService.saveReadings(batch);
+        mongoService.saveReadingsWithId(batch, "61388de20619830ec91f5120");
+        System.out.println(mongoService.findBatchByName("Mongo"));
         System.out.println(batch);
-        System.out.println(sensorReadingsToDouble);
     }
 
 }
