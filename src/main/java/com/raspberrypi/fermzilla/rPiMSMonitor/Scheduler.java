@@ -32,8 +32,8 @@ public class Scheduler {
     @Scheduled(fixedDelay = 5000)
     public void periodicGetTemp() throws UnirestException {
         batchDetails.setTime(new Date());
-        var getTempeFromInnerSensor = piConnect.getTempFromPi();
-        //Double getTempeFromInnerSensor = 27.0;
+        //var getTempeFromInnerSensor = piConnect.getTempFromPi();
+        Double getTempeFromInnerSensor = 27.0;
         tempList.add(batchDetails);
         batch.setBatchName("MongoEntityTest");
         batchDetails.setTemperature(getTempeFromInnerSensor);
