@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -29,11 +30,10 @@ public class Scheduler {
         this.mongoService = mongoService;
     }
 
-    @Scheduled(fixedDelay = 5000)
-    public void periodicGetTemp() throws UnirestException {
+  //  @Scheduled(fixedDelay = 5000)
+    public void periodicGetTemp() throws UnirestException, IOException {
         batchDetails.setTime(new Date());
-        //var getTempeFromInnerSensor = piConnect.getTempFromPi();
-        Double getTempeFromInnerSensor = 27.0;
+        var getTempeFromInnerSensor = piConnect.getTempFromPi();
         tempList.add(batchDetails);
         batch.setBatchName("MongoEntityTest");
         batchDetails.setTemperature(getTempeFromInnerSensor);
