@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/")
 @CrossOrigin(origins = "*")
 public class MonitorEndpoints {
     PiConnect piConnect;
@@ -15,7 +15,12 @@ public class MonitorEndpoints {
         this.piConnect = piConnect;
     }
 
-    @GetMapping(value = "/thermowelltmp")
+    @GetMapping(value = "hello")
+    public String helloMessage(){
+        return "Hello";
+    }
+
+    @GetMapping(value = "thermowelltmp")
     public Double getThermowellTemp() throws UnirestException {
         return piConnect.getTempFromPi();
     }
