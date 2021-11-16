@@ -4,6 +4,8 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/")
 @CrossOrigin(origins = "*")
@@ -21,7 +23,7 @@ public class MonitorEndpoints {
     }
 
     @GetMapping(value = "thermowelltmp")
-    public Double getThermowellTemp() throws UnirestException {
+    public Double getThermowellTemp() throws UnirestException, IOException {
         return piConnect.getTempFromPi();
     }
 }

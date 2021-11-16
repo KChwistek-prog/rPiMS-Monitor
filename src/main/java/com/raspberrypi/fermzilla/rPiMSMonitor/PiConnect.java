@@ -18,20 +18,25 @@ public class PiConnect {
     }
 
     private int checkConnection() throws IOException {
-        int responseCode = 0;
+        var responseCode = 0;
         try {
             URL url = new URL(adminConfig.getPiIpAddress());
             URLConnection connection = url.openConnection();
             HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
             responseCode = httpURLConnection.getResponseCode();
+            httpURLConnection.disconnect();
         } catch (ConnectException e) {
             System.out.println("Timeout");
         }
         return responseCode;
     }
 
-    public Double getTempFromPi() throws UnirestException {
-        return Unirest.get(adminConfig.getPiIpAddress() + "/v1/temperature").asJson().getBody().getObject().getDouble("thermoWellTemp");
+    public Double getTempFromPi() throws UnirestException, IOException {
+        if(checkConnection() == 200){
+            return Unirest.get(adminConfig.getPiIpAddress() + "/v1/temperature").asJson().getBody().getObject().getDouble("thermoWellTemp");
+        }else {
+            return 99.00;
+        }
 
     }
 }
