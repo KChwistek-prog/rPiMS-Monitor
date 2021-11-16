@@ -23,10 +23,12 @@ public class PiConnect {
             URL url = new URL(adminConfig.getPiIpAddress());
             URLConnection connection = url.openConnection();
             HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
+            httpURLConnection.setConnectTimeout(3000);
             responseCode = httpURLConnection.getResponseCode();
             httpURLConnection.disconnect();
-        } catch (ConnectException e) {
+        } catch (SocketTimeoutException e) {
             System.out.println("Timeout");
+            responseCode = 408;
         }
         return responseCode;
     }
