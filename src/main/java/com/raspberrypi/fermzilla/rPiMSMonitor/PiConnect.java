@@ -22,8 +22,8 @@ public class PiConnect {
         try {
             URL url = new URL(adminConfig.getPiIpAddress());
             URLConnection connection = url.openConnection();
+            connection.setConnectTimeout(3000);
             HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
-            httpURLConnection.setConnectTimeout(3000);
             responseCode = httpURLConnection.getResponseCode();
             httpURLConnection.disconnect();
         } catch (SocketTimeoutException e) {
