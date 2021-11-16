@@ -23,7 +23,8 @@ public class MonitorEndpoints {
     }
 
     @GetMapping(value = "thermowelltmp")
-    public Double getThermowellTemp() throws UnirestException, IOException {
+    @ResponseBody
+    public Thermowell getThermowellTemp() throws UnirestException, IOException {
         return piConnect.getTempFromPi();
     }
 }

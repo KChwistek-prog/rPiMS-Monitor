@@ -24,6 +24,11 @@ public class BatchDetails {
         this.temperature = temperature;
     }
 
+    public BatchDetails(Date time, Double temperature) {
+        this.time = time;
+        this.temperature = temperature;
+    }
+
     public BatchDetails() {
     }
 

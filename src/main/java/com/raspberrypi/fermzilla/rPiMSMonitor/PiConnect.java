@@ -33,11 +33,12 @@ public class PiConnect {
         return responseCode;
     }
 
-    public Double getTempFromPi() throws UnirestException, IOException {
+    public Thermowell getTempFromPi() throws UnirestException, IOException {
         if(checkConnection() == 200){
-            return Unirest.get(adminConfig.getPiIpAddress() + "/v1/temperature").asJson().getBody().getObject().getDouble("thermoWellTemp");
+            Double response = Unirest.get(adminConfig.getPiIpAddress() + "/v1/temperature").asJson().getBody().getObject().getDouble("thermoWellTemp");
+            return new Thermowell(response);
         }else {
-            return 99.00;
+            return new Thermowell(99.00);
         }
 
     }

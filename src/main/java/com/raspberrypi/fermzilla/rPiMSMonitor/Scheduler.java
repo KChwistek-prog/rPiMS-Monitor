@@ -31,18 +31,18 @@ public class Scheduler {
     }
 
   //  @Scheduled(fixedDelay = 5000)
-    public void periodicGetTemp() throws UnirestException, IOException {
-        batchDetails.setTime(new Date());
-        var getTempeFromInnerSensor = piConnect.getTempFromPi();
-        tempList.add(batchDetails);
-        batch.setBatchName("MongoEntityTest");
-        batchDetails.setTemperature(getTempeFromInnerSensor);
-        batch.setTemperatures(tempList);
-
-        //mongoService.saveReadings(batch);
-        mongoService.saveReadingsWithId(batch, "61388de20619830ec91f5120");
-        System.out.println(mongoService.findBatchByName("Mongo"));
-        System.out.println(batch);
-    }
+//    public void periodicGetTemp() throws UnirestException, IOException {
+//        batchDetails.setTime(new Date());
+//        var getTempeFromInnerSensor = piConnect.getTempFromPi();
+//        tempList.add(batchDetails);
+//        batch.setBatchName("MongoEntityTest");
+//       // batchDetails.setTemperature(getTempeFromInnerSensor);
+//        batch.setTemperatures(tempList);
+//
+//        //mongoService.saveReadings(batch);
+//        mongoService.saveReadingsWithId(batch, "61388de20619830ec91f5120");
+//        System.out.println(mongoService.findBatchByName("Mongo"));
+//        System.out.println(batch);
+//    }
 
 }
