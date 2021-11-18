@@ -14,8 +14,13 @@ public class PiConnect {
         this.adminConfig = adminConfig;
     }
 
-    public Thermowell getTempFromPi() throws UnirestException {
-        Double response = Unirest.get(adminConfig.getPiIpAddress() + "/v1/temperature").asJson().getBody().getObject().getDouble("thermoWellTemp");
-        return new Thermowell(response);
+    public Thermowell getTempFromPi() {
+        try {
+            Double response = Unirest.get(adminConfig.getPiIpAddress() + "/v1/temperature").asJson().getBody().getObject().getDouble("thermoWellTemp");
+            return new Thermowell(response);
+        } catch (UnirestException e) {
+            System.out.println("Connection lost");
+            return new Thermowell(99.0);
+        }
     }
 }
