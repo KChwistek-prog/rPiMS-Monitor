@@ -25,6 +25,6 @@ public class PiConnect {
 
     public Double roomTemperatureSensor() {
         //placeholder for room tmp sensor
-        return 25.0;
+        return 99.0;
     }
 }
