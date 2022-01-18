@@ -10,3 +10,5 @@ TODO:<br>
 -poprawa kalkulatora<br>
 -testy<br>
 -refaktoring częsci odpowiadającej za zapis do mongo
+
+Front do aplikacji będzie na: https://kchwistek-prog.github.io/
