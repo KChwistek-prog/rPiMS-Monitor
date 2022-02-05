@@ -21,17 +21,25 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.6.2'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator:2.6.2'
+	//spring boot
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:2.6.3'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator:2.6.3'
 
-	implementation 'org.codehaus.groovy:groovy:3.0.8'
-	implementation 'com.mashape.unirest:unirest-java:1.4.9'
+	//spock test
+	implementation "org.codehaus.groovy:groovy:3.0.8"
+	testImplementation platform("org.spockframework:spock-bom:2.0-groovy-3.0")
 	testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
-	testImplementation 'org.spockframework:spock-spring:2.0-groovy-3.0'
+	implementation 'org.spockframework:spock-spring:2.0-groovy-3.0'
+
+
+	implementation 'com.mashape.unirest:unirest-java:1.4.9'
 }
 
 test {
 	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
 }
