@@ -2,12 +2,65 @@ package com.raspberrypi.fermzilla.rPiMSMonitor.dataProcessor;
 
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 @Component
 public class Calculator {
+    private static final BigDecimal base = new BigDecimal("-16.6999");
+    private static final BigDecimal constantInEquationPartOne = new BigDecimal("0.0101059");
+    private static final BigDecimal constantInEquationPartTwo = new BigDecimal("0.00116512");
+    private static final BigDecimal constantInEquationPartThree = new BigDecimal("0.173354");
+    private static final BigDecimal constantInEquationPartFour = new BigDecimal("4.24267");
+    private static final BigDecimal constantInEquationPartFive = new BigDecimal("0.0684226");
+    private static final BigDecimal onePsiInBar = new BigDecimal("0.0689475729317831");
+    private static final BigDecimal multiplyConstInConverter = new BigDecimal("1.8");
+    private static final BigDecimal addConstInCelsiusConverter = new BigDecimal("32");
+
     public CarbCalcDto calculator(int tempC, double desiredCarb) {
-        double temperatureF = tempC * 1.8 + 32;
-        double pressureInPsi = (-16.6999) - (0.0101059 * temperatureF) + 0.00116512 * (temperatureF * temperatureF) + (0.173354 * temperatureF * desiredCarb) + (4.24267 * desiredCarb) - (0.0684226 * (desiredCarb * desiredCarb));
-        double pressureInBar = pressureInPsi * 0.0689475729317831;
-        return new CarbCalcDto(desiredCarb,tempC,pressureInBar);
+        var desiredCarbBig = new BigDecimal(desiredCarb);
+        var temperatureFBig = convertCtoFahrenheit(tempC);
+
+        //original formula:
+        // P = -16.6999 || - 0.0101059 T || + 0.00116512 T^2 || + 0.173354 T V || + 4.24267 V || - 0.0684226 V^2
+        //      base    ||       I       ||         II       ||        III     ||       IV    ||        V
+        var requiredPressureInPsiEquation = base
+                .subtract(equationPartOne(temperatureFBig))
+                .add(equationPartTwo(temperatureFBig))
+                .add(equationPartThree(temperatureFBig, desiredCarbBig))
+                .add(equationPartFour(desiredCarbBig))
+                .subtract(equationPartFive(desiredCarbBig));
+
+        var pressureInBar = convertPSItoBar(requiredPressureInPsiEquation).setScale(3, RoundingMode.HALF_DOWN);
+        return new CarbCalcDto(desiredCarb, tempC, pressureInBar);
+    }
+
+    private BigDecimal equationPartOne(BigDecimal temperatureInFahrenheit) {
+        return constantInEquationPartOne.multiply(temperatureInFahrenheit);
+    }
+
+    private BigDecimal equationPartTwo(BigDecimal temperatureInFahrenheit) {
+        return constantInEquationPartTwo.multiply(temperatureInFahrenheit.pow(2));
+    }
+
+    private BigDecimal equationPartThree(BigDecimal temperatureInFahrenheit, BigDecimal desiredCarbonation) {
+        return constantInEquationPartThree.multiply(temperatureInFahrenheit).multiply(desiredCarbonation);
+    }
+
+    private BigDecimal equationPartFour(BigDecimal desiredCarbonation) {
+        return constantInEquationPartFour.multiply(desiredCarbonation);
+    }
+
+    private BigDecimal equationPartFive(BigDecimal desiredCarbonation) {
+        return constantInEquationPartFive.multiply(desiredCarbonation.pow(2));
+    }
+
+    private BigDecimal convertPSItoBar(BigDecimal pressureInBar) {
+        return pressureInBar.multiply(onePsiInBar);
+    }
+
+    private BigDecimal convertCtoFahrenheit(int temperatureInC) {
+        var bigDecimalTemp = new BigDecimal(temperatureInC);
+        return bigDecimalTemp.multiply(multiplyConstInConverter).add(addConstInCelsiusConverter);
     }
 }
