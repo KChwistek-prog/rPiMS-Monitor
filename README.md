@@ -7,8 +7,10 @@ Endpointy:<br>
 /carbonation/{temperature}&{desiredCarb} - przekazuje dane do kalkulatora, oblicza potrzebne ciśnienie do zadanego nagazowania
 
 TODO:<br>
--poprawa kalkulatora<br>
--testy<br>
 -refaktoring częsci odpowiadającej za zapis do mongo
 
 Front do aplikacji będzie na: https://kchwistek-prog.github.io/
+
+Schemat modułów:
+
+<iframe src="https://drive.google.com/file/d/14AFiZaWTv8fjrkPoEtnGCV9DCyQyWCmL/preview" width="640" height="480" allow="autoplay"></iframe>
