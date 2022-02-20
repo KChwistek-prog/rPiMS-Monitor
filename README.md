@@ -11,5 +11,5 @@ TODO:<br>
 
 Front do aplikacji będzie na: https://kchwistek-prog.github.io/
 
-Schemat modułów:
-https://drive.google.com/file/d/14AFiZaWTv8fjrkPoEtnGCV9DCyQyWCmL/preview
+Schemat ogólny aplikacji:
+<img src="./rpims_component.drawio.jpeg">
