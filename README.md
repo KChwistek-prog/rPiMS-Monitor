@@ -12,4 +12,4 @@ TODO:<br>
 Front do aplikacji będzie na: https://kchwistek-prog.github.io/
 
 Schemat ogólny aplikacji:
-<img src="./rpims_component.drawio.jpeg">
+<img src="./rpims_component.drawio.jpg">
