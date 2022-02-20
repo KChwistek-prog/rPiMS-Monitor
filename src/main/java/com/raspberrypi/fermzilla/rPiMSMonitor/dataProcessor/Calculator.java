@@ -18,6 +18,11 @@ public class Calculator {
     private static final BigDecimal addConstInCelsiusConverter = new BigDecimal("32");
 
     public CarbCalcDto calculator(int tempC, double desiredCarb) {
+        var pressureInBar = computeCarbonation(tempC, desiredCarb);
+        return new CarbCalcDto(desiredCarb, tempC, pressureInBar);
+    }
+
+    public double computeCarbonation(int tempC, double desiredCarb) {
         var desiredCarbBig = new BigDecimal(desiredCarb);
         var temperatureFBig = convertCtoFahrenheit(tempC);
 
@@ -31,8 +36,7 @@ public class Calculator {
                 .add(equationPartFour(desiredCarbBig))
                 .subtract(equationPartFive(desiredCarbBig));
 
-        var pressureInBar = convertPSItoBar(requiredPressureInPsiEquation).setScale(3, RoundingMode.HALF_DOWN);
-        return new CarbCalcDto(desiredCarb, tempC, pressureInBar);
+        return convertPSItoBar(requiredPressureInPsiEquation).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     private BigDecimal equationPartOne(BigDecimal temperatureInFahrenheit) {
