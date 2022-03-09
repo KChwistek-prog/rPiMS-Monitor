@@ -13,6 +13,12 @@ public class Batch {
 
     private List<BatchDetails> temperatures;
 
+    public Batch(String batchId, String batchName, List<BatchDetails> temperatures) {
+        this.batchId = batchId;
+        this.batchName = batchName;
+        this.temperatures = temperatures;
+    }
+
     public Batch() {
     }
 

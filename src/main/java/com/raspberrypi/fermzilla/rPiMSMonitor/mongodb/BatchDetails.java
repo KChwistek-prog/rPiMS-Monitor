@@ -6,7 +6,8 @@ import java.util.Date;
 @Document
 public class BatchDetails {
     private Date time;
-    private Double temperature;
+    private Double roomTemperature;
+    private Double thermowellTemperature;
 
     public Date getTime() {
         return time;
@@ -16,17 +17,26 @@ public class BatchDetails {
         this.time = time;
     }
 
-    public Double getTemperature() {
-        return temperature;
+    public Double getRoomTemperature() {
+        return roomTemperature;
     }
 
-    public void setTemperature(Double temperature) {
-        this.temperature = temperature;
+    public void setRoomTemperature(Double roomTemperature) {
+        this.roomTemperature = roomTemperature;
     }
 
-    public BatchDetails(Date time, Double temperature) {
+    public Double getThermowellTemperature() {
+        return thermowellTemperature;
+    }
+
+    public void setThermowellTemperature(Double thermowellTemperature) {
+        this.thermowellTemperature = thermowellTemperature;
+    }
+
+    public BatchDetails(Date time, Double roomTemperature, Double thermowellTemperature) {
         this.time = time;
-        this.temperature = temperature;
+        this.roomTemperature = roomTemperature;
+        this.thermowellTemperature = thermowellTemperature;
     }
 
     public BatchDetails() {
@@ -39,14 +49,17 @@ public class BatchDetails {
 
         BatchDetails that = (BatchDetails) o;
 
-        if (!time.equals(that.time)) return false;
-        return temperature.equals(that.temperature);
+        if (time != null ? !time.equals(that.time) : that.time != null) return false;
+        if (roomTemperature != null ? !roomTemperature.equals(that.roomTemperature) : that.roomTemperature != null)
+            return false;
+        return thermowellTemperature != null ? thermowellTemperature.equals(that.thermowellTemperature) : that.thermowellTemperature == null;
     }
 
     @Override
     public int hashCode() {
-        int result = time.hashCode();
-        result = 31 * result + temperature.hashCode();
+        int result = time != null ? time.hashCode() : 0;
+        result = 31 * result + (roomTemperature != null ? roomTemperature.hashCode() : 0);
+        result = 31 * result + (thermowellTemperature != null ? thermowellTemperature.hashCode() : 0);
         return result;
     }
 
@@ -54,7 +67,8 @@ public class BatchDetails {
     public String toString() {
         return "BatchDetails{" +
                 "time=" + time +
-                ", temperature=" + temperature +
+                ", roomTemperature=" + roomTemperature +
+                ", thermowellTemperature=" + thermowellTemperature +
                 '}';
     }
 }

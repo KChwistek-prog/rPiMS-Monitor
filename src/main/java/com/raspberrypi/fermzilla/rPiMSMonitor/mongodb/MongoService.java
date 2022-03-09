@@ -2,26 +2,32 @@ package com.raspberrypi.fermzilla.rPiMSMonitor.mongodb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.stream.Collectors;
 
 @Service
 public class MongoService {
-    private BatchRepo batchRepo;
+    private final BatchRepo batchRepo;
 
     @Autowired
     public MongoService(BatchRepo batchRepo) {
         this.batchRepo = batchRepo;
     }
 
-    public String findBatchByName(String name){
+    public String findBatchByName(String batchName){
         return batchRepo.findAll().stream()
-                .filter(batch -> batch.getBatchName().contains(name))
+                .filter(batch -> batch.getBatchName().contains(batchName))
                 .map(Batch::getBatchId)
                 .collect(Collectors.joining());
     }
 
-    public void saveReadings(final Batch batch){
-        batchRepo.save(batch);
+    public boolean checkIfBatchNameExists(final String batchName){
+        return batchRepo.findAll().stream()
+                .findAny().filter(e -> e.getBatchName().contentEquals(batchName)).isPresent();
+    }
+
+    public Batch saveReadings(final Batch batch){
+        return batchRepo.save(batch);
     }
 
     public void saveReadingsWithId(final Batch batch, String id){
