@@ -24,7 +24,7 @@ public class Processor {
             return new RPiSensorData(
                     getFromPi.getBody().getObject().getDouble("thermowellTemp"),
                     getFromPi.getBody().getObject().getDouble("roomTemperature"),
-                    getFromPi.getBody().getObject().getDouble("roomTemperature"));
+                    getFromPi.getBody().getObject().getDouble("setupPressure"));
         } catch (UnirestException e) {
             System.out.println("Connection lost");
             return new RPiSensorData(99.0, 99.0, 99.0);
