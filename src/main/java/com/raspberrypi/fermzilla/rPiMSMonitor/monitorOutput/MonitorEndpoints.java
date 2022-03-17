@@ -29,12 +29,7 @@ public class MonitorEndpoints {
         this.batchMapper = batchMapper;
     }
 
-    @GetMapping(value = "hello")
-    public String helloMessage() {
-        return "Hello";
-    }
-
-    @GetMapping(value = "thermowelltmp")
+    @GetMapping(value = "readDataFromPiSensors")
     @ResponseBody
     public RPiSensorData getDataReadingsFromRPi() {
         return processor.sensorsDataReadings();
