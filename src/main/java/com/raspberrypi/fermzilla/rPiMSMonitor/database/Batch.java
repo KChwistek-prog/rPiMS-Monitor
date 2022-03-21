@@ -1,19 +1,25 @@
-package com.raspberrypi.fermzilla.rPiMSMonitor.mongodb;
+package com.raspberrypi.fermzilla.rPiMSMonitor.database;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.List;
 
-@Document
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table(name = "BATCH")
 public class Batch {
-    @Id
-    private String batchId;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "batch_id", nullable = false)
+    private Long batchId;
+
+    @Column
     private String batchName;
 
-    private List<BatchDetails> temperatures;
+    @OneToMany(mappedBy = "batch")
+    private Set<BatchDetails> temperatures;
 
-    public Batch(String batchId, String batchName, List<BatchDetails> temperatures) {
+    public Batch(Long batchId, String batchName, Set<BatchDetails> temperatures) {
         this.batchId = batchId;
         this.batchName = batchName;
         this.temperatures = temperatures;
@@ -22,11 +28,11 @@ public class Batch {
     public Batch() {
     }
 
-    public String getBatchId() {
+    public Long getBatchId() {
         return batchId;
     }
 
-    public void setBatchId(String batchId) {
+    public void setBatchId(Long batchId) {
         this.batchId = batchId;
     }
 
@@ -38,11 +44,11 @@ public class Batch {
         this.batchName = batchName;
     }
 
-    public List<BatchDetails> getTemperatures() {
+    public Set<BatchDetails> getTemperatures() {
         return temperatures;
     }
 
-    public void setTemperatures(List<BatchDetails> temperatures) {
+    public void setTemperatures(Set<BatchDetails> temperatures) {
         this.temperatures = temperatures;
     }
 

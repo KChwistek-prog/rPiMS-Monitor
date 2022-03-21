@@ -1,7 +1,7 @@
-package com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.mapper;
+package com.raspberrypi.fermzilla.rPiMSMonitor.database.mapper;
 
-import com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.Batch;
-import com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.DTOs.BatchDTO;
+import com.raspberrypi.fermzilla.rPiMSMonitor.database.Batch;
+import com.raspberrypi.fermzilla.rPiMSMonitor.database.DTOs.BatchDTO;
 import org.springframework.stereotype.Service;
 
 @Service

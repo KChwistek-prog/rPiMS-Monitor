@@ -3,19 +3,16 @@ package com.raspberrypi.fermzilla.rPiMSMonitor.dataProcessor;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.raspberrypi.fermzilla.rPiMSMonitor.adminConfig.AdminConfig;
-import com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.MongoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Processor {
-    private final MongoService mongoService;
     private final AdminConfig adminConfig;
 
     @Autowired
-    public Processor(AdminConfig adminConfig, MongoService mongoService) {
+    public Processor(AdminConfig adminConfig) {
         this.adminConfig = adminConfig;
-        this.mongoService = mongoService;
     }
 
     public RPiSensorData sensorsDataReadings() {

@@ -4,13 +4,16 @@ import com.raspberrypi.fermzilla.rPiMSMonitor.dataProcessor.Calculator;
 import com.raspberrypi.fermzilla.rPiMSMonitor.dataProcessor.CarbCalcDto;
 import com.raspberrypi.fermzilla.rPiMSMonitor.dataProcessor.Processor;
 import com.raspberrypi.fermzilla.rPiMSMonitor.dataProcessor.RPiSensorData;
-import com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.DTOs.BatchDTO;
-import com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.MongoService;
-import com.raspberrypi.fermzilla.rPiMSMonitor.mongodb.mapper.BatchMapper;
+import com.raspberrypi.fermzilla.rPiMSMonitor.database.Batch;
+import com.raspberrypi.fermzilla.rPiMSMonitor.database.BatchDetails;
+import com.raspberrypi.fermzilla.rPiMSMonitor.database.DTOs.BatchDTO;
+import com.raspberrypi.fermzilla.rPiMSMonitor.database.mapper.BatchMapper;
+import com.raspberrypi.fermzilla.rPiMSMonitor.database.repository.DatabaseService;
 import com.raspberrypi.fermzilla.rPiMSMonitor.monitorOutput.exceptions.BatchNameAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/")
@@ -18,14 +21,14 @@ import org.springframework.web.bind.annotation.*;
 public class MonitorEndpoints {
     private final Processor processor;
     private final Calculator calculator;
-    private final MongoService mongoService;
+    private final DatabaseService databaseService;
     private final BatchMapper batchMapper;
 
     @Autowired
-    public MonitorEndpoints(Processor processor, Calculator calculator, MongoService mongoService, BatchMapper batchMapper) {
+    public MonitorEndpoints(Processor processor, Calculator calculator, DatabaseService databaseService, BatchMapper batchMapper) {
         this.processor = processor;
         this.calculator = calculator;
-        this.mongoService = mongoService;
+        this.databaseService = databaseService;
         this.batchMapper = batchMapper;
     }
 
@@ -44,10 +47,10 @@ public class MonitorEndpoints {
     @PostMapping(value = "createNewBatch", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public BatchDTO createNewBatch(@RequestBody BatchDTO batchDto) throws BatchNameAlreadyExistsException {
-        if (mongoService.checkIfBatchNameExists(batchDto.batchName())) {
+        if (databaseService.checkIfBatchNameExists(batchDto.batchName())) {
             throw new BatchNameAlreadyExistsException();
         } else {
-            var persistentBatch = mongoService.saveReadings(batchMapper.mapToBatch(batchDto));
+            var persistentBatch = databaseService.saveReadings(batchMapper.mapToBatch(batchDto));
             return batchMapper.mapToBatchDto(persistentBatch);
         }
     }
